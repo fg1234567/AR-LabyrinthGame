@@ -7,15 +7,23 @@ using UnityEngine.UI;
 public class CapsuleCollisionCheck : MonoBehaviour
 {
 
+    public Text GameOverText;
+
     // Use this for initialization
     void Start()
     {
+        GameOverText.enabled = false;
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameOverText.enabled = false;
+
+        }
         //Debug.Log("capsule");
 
         //Debug.Log(this.transform.position);
@@ -25,8 +33,7 @@ public class CapsuleCollisionCheck : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
 
-        //GameObject[] text =  GameObject.FindGameObjectsWithTag("GameOverText");
-        //text[0].SetActive(true);
+        GameOverText.enabled = true;
         Debug.Log("COLLISION Capsule");
 
     }
