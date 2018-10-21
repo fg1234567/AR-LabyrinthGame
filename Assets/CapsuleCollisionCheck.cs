@@ -8,11 +8,19 @@ public class CapsuleCollisionCheck : MonoBehaviour
 {
 
     public Text GameOverText;
+    public Text UberText;
+    public Text NescafeText;
+    public Text TebriklerText;
+
+    private int coinCount = 0;
 
     // Use this for initialization
     void Start()
     {
         GameOverText.enabled = false;
+        UberText.enabled = false;
+        NescafeText.enabled = false;
+        TebriklerText.enabled = false;
 
     }
 
@@ -22,6 +30,9 @@ public class CapsuleCollisionCheck : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             GameOverText.enabled = false;
+            UberText.enabled = false;
+            NescafeText.enabled = false;
+            TebriklerText.enabled = false;
 
         }
         //Debug.Log("capsule");
@@ -32,8 +43,36 @@ public class CapsuleCollisionCheck : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        Debug.Log(collision.gameObject.name);
 
-        GameOverText.enabled = true;
+        if (collision.gameObject.name == "LogoStandUber")
+        {
+            UberText.enabled = true;
+            collision.gameObject.SetActive(false);
+        }
+        else if (collision.gameObject.name == "LogoStandNescafe")
+        {
+            NescafeText.enabled = true;
+            collision.gameObject.SetActive(false);
+
+        }
+        else if (collision.gameObject.transform.parent.name == "Coins")
+        {
+            collision.gameObject.SetActive(false);
+            coinCount++;
+
+        }
+        else if (collision.gameObject.name == "finishText" && coinCount == 6)
+        {
+            TebriklerText.enabled = true;
+            
+        }
+        else if (collision.gameObject.name == "path")
+        {
+            GameOverText.enabled = true;
+
+        }
+
         Debug.Log("COLLISION Capsule");
 
     }
