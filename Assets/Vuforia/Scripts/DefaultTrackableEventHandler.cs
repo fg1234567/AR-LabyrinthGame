@@ -23,6 +23,13 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
 
     #endregion // PROTECTED_MEMBER_VARIABLES
 
+    #region PUBLIC_MEMBER_VARIABLES
+
+    public bool isTrackableFound = false;
+
+    #endregion // PUBLIC_MEMBER_VARIABLES
+
+
     #region UNITY_MONOBEHAVIOUR_METHODS
 
     protected virtual void Start()
@@ -55,12 +62,14 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
             newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED)
         {
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
+            isTrackableFound = true;
             OnTrackingFound();
         }
         else if (previousStatus == TrackableBehaviour.Status.TRACKED &&
                  newStatus == TrackableBehaviour.Status.NO_POSE)
         {
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
+            isTrackableFound = false;
             OnTrackingLost();
         }
         else
@@ -68,6 +77,8 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
             // For combo of previousStatus=UNKNOWN + newStatus=UNKNOWN|NOT_FOUND
             // Vuforia is starting, but tracking has not been lost or found yet
             // Call OnTrackingLost() to hide the augmentations
+            isTrackableFound = false;
+
             OnTrackingLost();
         }
     }
